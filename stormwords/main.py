@@ -6,9 +6,10 @@ import sys
 import json
 import getopt
 from collections import deque
-from .spider import YouDaoSpider
+from spider import YouDaoSpider
 from termcolor import colored
 import urllib.request as requests
+import config_me
 
 
 def show_help():

@@ -6,7 +6,7 @@ import random
 import hashlib
 import http.client
 import json
-
+import config_me
 
 class YouDaoSpider(object):
 
@@ -17,8 +17,8 @@ class YouDaoSpider(object):
     Language support : 中文zh-CHS、日文ja、英文En、韩文ko、法文fr、俄文ru、葡萄牙文pt、西班牙文es
     """
     params = {
-        'appKey': '566392cad5fa8829',
-        'secretKey': 'RF2jySGxOKDYO2WT1H78vu7JeKq6KvL9',
+        'appKey': config_me.APPKEY,
+        'secretKey': config_me.SECRETKEY,
         'fromLang': 'En',
         'toLang': 'zh-CHS',
         'salt': str(random.randint(1, 65536)),

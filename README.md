@@ -2,7 +2,7 @@ Storm Words
 =====================
 Introduction
 ------------
-Storm Words is a tool writen in Python3, which can help you remember English words by the way of brainstorm. 
+Storm Words is a tool written in Python 3, which can help you remember English words by the way of brainstorm. 
 
 YouDao AICloud API
 ------------------
@@ -11,6 +11,8 @@ YouDao AICloud API
 - Language support : 中文zh-CHS、日文ja、英文En、韩文ko、法文fr、俄文ru、葡萄牙文pt、西班牙文es
 
 ![YouDao](./youdao.png)
+
+**Note: Please config your own appKey and secretKey in YouDao AICloud.**
 
 Help
 ----

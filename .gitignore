@@ -2,3 +2,6 @@
 build
 dist
 stormwords.egg-info
+
+# configuration
+config_me.py
