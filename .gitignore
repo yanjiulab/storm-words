@@ -4,4 +4,4 @@ dist
 stormwords.egg-info
 
 # configuration
-/stormwords/config_me.py
+stormwords/config_me.py
