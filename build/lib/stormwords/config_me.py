@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 import os
 import errno
 import pickle
-
 
 # Basic
 VERSION = '0.0.2'
@@ -19,8 +17,8 @@ PK_DIR = os.path.join(BASE_DIR, PK_FILE)
 config = {'version': '0'}
 
 # YouDao AICloud config
-APP_KEY = ''
-SECRET_KEY = ''
+APP_KEY = '566392cad5fa8829'
+SECRET_KEY = 'RF2jySGxOKDYO2WT1H78vu7JeKq6KvL9'
 
 
 def silent_remove(filename):
@@ -49,10 +47,6 @@ def prepare():
         config['version'] = VERSION
         save_config()
 
-
-# def set_dict_path(path):
-#     config['stardict'] = path
-#     save_config()
 
 
 

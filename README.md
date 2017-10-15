@@ -17,18 +17,27 @@ YouDao AICloud API
 Help
 ----
 ```
-sw word
-
+yd [-n] [-l] [--clear] [-d word] [-s path] [--help] word
+[-n] query words do not use database 
+[-l] list all the words in database
+[-c] clear the database
+[-d word] delete a word from database
+[--help] show help
 ```
 
 Install
 -------
 - Linux(Ubuntu):  
-`python3 setup.py install`
+0. download
+    1. `git clone git@github.com:liyanjiu/storm-words.git`
+    2. `cd storm-words`
+1. change the import module name from config_me to config.
+2. `python3 setup.py install`
 
 Update
 ------
-- 0.0.1 query words via YouDao AICloud API
+- 0.0.1 Query words via YouDao AICloud API
+- 0.0.2 Add support for SQLite3. Saving words in local database.
 
 
 风暴单词
@@ -39,4 +48,5 @@ Update
 
 更新
 ---
-0.0.1 使用有道智云API查词
+0.0.1 使用有道智云API查词。
+0.0.2 增加SQLite3支持,缓存单词到本地，记录查询次数。
