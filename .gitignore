@@ -1,7 +1,13 @@
+# IDE
 .idea
-stormwords.egg-info
+stormwords/__pycache__
+
+# distribution
+/build
+/dist
+/stormwords.egg-info
 
 # configuration
 stormwords/config_me.py
-stormwords/__pycache__
+
 
