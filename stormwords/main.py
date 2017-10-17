@@ -8,7 +8,7 @@ import getopt
 from collections import deque
 from termcolor import colored
 import urllib.request as requests
-from stormwords.config_me import *
+from stormwords.config import *
 from stormwords.model import Word, db
 from stormwords.spider import YouDaoSpider
 
@@ -17,8 +17,9 @@ def show_help():
     print("""
     控制台下的storm-words 版本{ver}
     查询结果会保存到SQLite数据库中,
-    使用方法 yd [-n] [-l] [-c] [-d word] [--help] word
+    使用方法 sw [-n] [-l] [-c] [-d word] [--help] word
     [-n] 强制重新获取, 不管数据库中是否已经保存
+    [-a] 使用有道智云API
     [-l] 列出数据库中保存的所有单词
     [-c] 清空数据库
     [-d word] 删除数据库中某个单词
@@ -61,7 +62,7 @@ def show_result(result):
                 print('\t' + colored(item['key'], 'cyan') + ': ' + '; '.join(item['value']))
 
 
-def query(keyword, use_db=True):
+def query(keyword, use_db=True, use_api=False):
     update_word = [True]    # need update words by default
 
     word = Word.get_word(keyword)
@@ -74,7 +75,7 @@ def query(keyword, use_db=True):
         if not result['errorCode'] == '0':
             spider = YouDaoSpider(keyword)
             try:
-                result.update(spider.get_result())
+                result.update(spider.get_result(use_api))
             except requests.HTTPError as e:
                 print(colored('Network Error: %s' % e.message, 'red'))
                 sys.exit()
@@ -123,10 +124,13 @@ def main():
         return
 
     use_db = True
+    use_api = False
 
     for opt in options:
         if opt[0] == '-n':
             use_db = False
+        elif opt[0] == '-a':
+            use_api = True
         elif opt[0] == '-l':
             show_db_list()
             sys.exit()
@@ -142,11 +146,10 @@ def main():
                 sys.exit()
 
     keyword = ' '.join(args)
-
     if not keyword:
         show_help()
     else:
-        query(keyword, use_db)
+        query(keyword, use_db, use_api)
 
     db.close()
 

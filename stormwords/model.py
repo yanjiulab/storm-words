@@ -4,7 +4,7 @@
 import os
 import datetime
 from peewee import *
-from stormwords.config_me import DB_DIR
+from stormwords.config import DB_DIR
 
 
 db = SqliteDatabase(DB_DIR)
@@ -21,6 +21,9 @@ class Word(BaseModel):
     add_time = DateTimeField(default=datetime.datetime.now())
     query_time = DateTimeField(default=datetime.datetime.now())
     count = IntegerField(default=1)
+    # root = ForeignKeyField(Root, related_name='root')
+    # prefix = ForeignKeyField(Prefix, related_name='prefix')
+    # suffix = ForeignKeyField(Suffix, related_name='suffix')
 
     @classmethod
     def get_word(cls, keyword):
@@ -40,3 +43,15 @@ class Word(BaseModel):
             return word
         except cls.DoesNotExist:
             return None
+
+
+# class Root(BaseModel):
+#     pass
+#
+#
+# class Prefix(BaseModel):
+#     pass
+#
+#
+# class Suffix(BaseModel):
+#     pass

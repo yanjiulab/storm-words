@@ -7,7 +7,7 @@ for p in sys.path:
     print(p, ',')
 
 setup(name='stormwords',
-      version='0.0.2',
+      version='0.0.3',
       description="基于头脑风暴的英语学习小工具",
       long_description="""基于有道API和有道词典web版的在terminal查询词的小工具,详情请见github""",
       keywords='python youdao dictionary terminal',

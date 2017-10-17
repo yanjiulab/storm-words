@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 import os
 import errno
 import pickle
 
-
 # Basic
-VERSION = '0.0.2'
+VERSION = '0.0.3'
 HOME = os.path.expanduser("~")
 BASE_DIR = os.path.join(HOME, '.storm_words')   # 用户数据根目录
 
@@ -19,8 +17,8 @@ PK_DIR = os.path.join(BASE_DIR, PK_FILE)
 config = {'version': '0'}
 
 # YouDao AICloud config
-APP_KEY = ''
-SECRET_KEY = ''
+APP_KEY = '566392cad5fa8829'  # this is my app key
+SECRET_KEY = 'RF2jySGxOKDYO2WT1H78vu7JeKq6KvL9'  # this is my secret key
 
 
 def silent_remove(filename):
@@ -49,10 +47,6 @@ def prepare():
         config['version'] = VERSION
         save_config()
 
-
-# def set_dict_path(path):
-#     config['stardict'] = path
-#     save_config()
 
 
 
