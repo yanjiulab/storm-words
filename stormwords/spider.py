@@ -78,7 +78,7 @@ class YouDaoSpider(object):
 
     def parse_html(self, html):
         """
-        to parse the content of the YouDao dict web
+        to parse the contents of the YouDao dict web version
         :param html  -- txt
         :return:result -- dict
         """
@@ -143,7 +143,7 @@ class YouDaoSpider(object):
 
 if __name__ == '__main__':
     test = YouDaoSpider('test')
-    print(test.get_result())
+    print(test.get_result(False))
 
 
 # Output structure

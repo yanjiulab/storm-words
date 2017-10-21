@@ -7,7 +7,7 @@ import json
 import getopt
 from collections import deque
 from termcolor import colored
-import urllib.request as requests
+import requests
 from stormwords.config import *
 from stormwords.model import Word, db
 from stormwords.spider import YouDaoSpider
