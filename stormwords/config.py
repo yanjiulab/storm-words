@@ -5,7 +5,7 @@ import errno
 import pickle
 
 # Basic
-VERSION = '0.0.3'
+VERSION = '0.1.0'
 HOME = os.path.expanduser("~")
 BASE_DIR = os.path.join(HOME, '.storm_words')   # 用户数据根目录
 

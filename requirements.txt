@@ -1,4 +1,4 @@
 termcolor==1.1.0
 peewee==2.10.2
-requests==2.9.1
+requests==2.18.4
 bs4==0.0.1

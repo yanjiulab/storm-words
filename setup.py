@@ -2,12 +2,13 @@
 
 from setuptools import setup, find_packages
 import sys
+from stormwords.config import VERSION
 
 for p in sys.path:
     print(p, ',')
 
 setup(name='stormwords',
-      version='0.0.3',
+      version='{0}'.format(VERSION),
       description="基于头脑风暴的英语学习小工具",
       long_description="""基于有道API和有道词典web版的在terminal查询词的小工具,详情请见github""",
       keywords='python youdao dictionary terminal',
@@ -20,7 +21,9 @@ setup(name='stormwords',
       zip_safe=False,
       install_requires=[
           'termcolor',
-          'peewee'
+          'peewee',
+          'requests',
+          'bs4'
       ],
       classifiers=[
           'Programming Language :: Python :: 3.5',

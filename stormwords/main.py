@@ -1,24 +1,23 @@
 #!/usr/bin/env python3
 # _*_ coding: utf-8 _*_
-
-import os
 import sys
 import json
 import getopt
-from collections import deque
 from termcolor import colored
 import requests
 from stormwords.config import *
 from stormwords.model import Word, db
 from stormwords.spider import YouDaoSpider
 
+__all__ = ['show_help', 'query', 'show_result', 'del_word', 'show_db_list', 'main']
+
 
 def show_help():
     print("""
     控制台下的storm-words 版本{ver}
     查询结果会保存到SQLite数据库中,
-    使用方法 sw [-n] [-l] [-c] [-d word] [--help] word
-    [-n] 强制重新获取, 不管数据库中是否已经保存
+    使用方法 sw [-f] [-a] [-l] [-c] [-d word] [--help] word
+    [-f] 强制重新获取, 不管数据库中是否已经保存
     [-a] 使用有道智云API
     [-l] 列出数据库中保存的所有单词
     [-c] 清空数据库
@@ -32,11 +31,6 @@ def show_result(result):
     show translate result in a readable way.
     :param result: dict with the same json format as YouDao API had returned.
     """
-    if 'stardict' in result:
-        print(colored('StarDict:', 'blue'))
-        print(result['stardict'])
-        return
-
     if result['errorCode'] != '0':
         print(colored(result['errorCode'], 'red'))
     else:
@@ -63,8 +57,7 @@ def show_result(result):
 
 
 def query(keyword, use_db=True, use_api=False):
-    update_word = [True]    # need update words by default
-
+    update_word = [True]   # need update words by default
     word = Word.get_word(keyword)
     result = {'query': keyword, 'errorCode': '60'}
     if use_db and word:
@@ -76,8 +69,9 @@ def query(keyword, use_db=True, use_api=False):
             spider = YouDaoSpider(keyword)
             try:
                 result.update(spider.get_result(use_api))
-            except requests.HTTPError as e:
-                print(colored('Network Error: %s' % e.message, 'red'))
+            except requests.Timeout as e:
+                print(colored('Timeout:', 'red'), e,
+                      colored('\nPlease check your network condition and try again ...', 'yellow'))
                 sys.exit()
         # Update database
         new_word = word if word else Word()
@@ -110,13 +104,11 @@ def main():
     prepare()
     db.connect()
     # create table of of word
-    if db.get_tables()[0] == 'word':
-        pass
-    else:
+    if not db.get_tables()[0] == 'word':
         Word.create_table()
 
     try:
-        options, args = getopt.getopt(sys.argv[1:], 'anld:cvs:y', ['help'])
+        options, args = getopt.getopt(sys.argv[1:], 'afld:c', ['help'])
     except getopt.GetoptError:
         options = [('--help', '')]
     if ('--help', '') in options:
@@ -127,7 +119,7 @@ def main():
     use_api = False
 
     for opt in options:
-        if opt[0] == '-n':
+        if opt[0] == '-f':
             use_db = False
         elif opt[0] == '-a':
             use_api = True
@@ -154,9 +146,6 @@ def main():
     db.close()
 
 if __name__ == '__main__':
-    # test = YouDaoSpider('test')
-    # result = test.get_result()
-    # show_result(result)
     main()
 
 
