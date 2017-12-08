@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import urllib.parse
+
 import random
 import hashlib
 import requests
-import http.client
 import json
 import re
 from bs4 import BeautifulSoup
@@ -22,16 +21,17 @@ class YouDaoSpider(object):
     translation_url : http://fanyi.youdao.com/translate?keyfrom=dict.top&i=
     Language support : 中文zh-CHS、日文ja、英文En、韩文ko、法文fr、俄文ru、葡萄牙文pt、西班牙文es
     """
-    params = {
-        'appKey': APP_KEY,
-        'secretKey': SECRET_KEY,
-        'fromLang': 'En',
-        'toLang': 'zh-CHS',
-        'salt': str(random.randint(1, 65536)),
-    }
-
+    api_url = 'http://openapi.youdao.com/api'
     web_url = 'http://dict.youdao.com/search?keyfrom=dict.top&q='
     translation_url = 'http://fanyi.youdao.com/translate?keyfrom=dict.top&i='
+
+    origin_api_params = {
+        'appKey': APP_KEY,
+        'secretKey': SECRET_KEY,
+        'from': 'En',
+        'to': 'zh-CHS',
+        'salt': str(random.randint(1, 65536)),
+    }
 
     def __init__(self, word):
         self.word = word
@@ -39,37 +39,36 @@ class YouDaoSpider(object):
             "query": "",
             "errorCode": '0'
         }
-        self.api_url = None
+        self.api_params = {}
 
-    def make_api_url(self):
-        # Construct api url
-        sign = self.params['appKey'] + self.word + self.params['salt'] + self.params['secretKey']
+    def gen_api_params(self, api_params):
+        """
+        Generating api parameters
+        :param api_params: original parameters
+        :return: api_params: real parameters
+        """
+        sign = api_params['appKey'] + self.word + api_params['salt'] + api_params['secretKey']
         m1 = hashlib.md5()
         m1.update(sign.encode('utf-8'))
         sign = m1.hexdigest()
-        api_url = '/api?appKey=' + self.params['appKey'] + '&q=' + urllib.parse.quote(self.word) + '&from=' + \
-                  self.params['fromLang'] + '&to=' + self.params['toLang'] + '&salt=' + self.params[
-                      'salt'] + '&sign=' + sign
-        return api_url
 
-    def get_result(self, use_api=False):
+        api_params['sign'] = sign
+        api_params['q'] = self.word
+        del api_params['secretKey']
+
+        return api_params
+
+    def get_result(self, use_api=False, api_url=api_url):
         """
         Get translation result via YouDao API or YouDao web by default
         :return: translation results -- dict
         """
         if use_api:
-            http_client = None
-            api_url = self.make_api_url()
-            try:
-                http_client = http.client.HTTPConnection('openapi.youdao.com')  # Http request
-                http_client.request('GET', api_url)
-                response = http_client.getresponse()  # response是HTTPResponse对象
-                self.result = json.JSONDecoder().decode(response.read().decode())  # response.read().decode()[type:str] ----> result[type:dict]
-            except Exception as e:
-                print('error:', e)
-            finally:
-                if http_client:
-                    http_client.close()
+            self.api_params = self.gen_api_params(self.origin_api_params)
+            r = requests.get(api_url, params=self.api_params)
+            r.raise_for_status()
+            self.result = r.json()
+            return self.result
         else:
             r = requests.get(self.web_url + self.word)
             r.raise_for_status()
@@ -132,7 +131,7 @@ class YouDaoSpider(object):
         :param word -- str
         :return:result -- list
         """
-        r = requests.get(self.translation_url+word)
+        r = requests.get(self.translation_url + word)
         if r.status_code != requests.codes.ok:
             return None
         pattern = re.compile(r'"translateResult":\[(\[.+\])\]')
@@ -142,7 +141,7 @@ class YouDaoSpider(object):
 
 
 if __name__ == '__main__':
-    test = YouDaoSpider('test')
+    test = YouDaoSpider('value')
     print(test.get_result(False))
 
 
