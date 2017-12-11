@@ -43,7 +43,7 @@ Update
 - 0.0.2 Add support for SQLite3. Saving words in local database.
 - 0.0.3 Add support for Web YouDao Dictionary, and searching words by parsing the web by default. 
 - 0.1.0 Reconstruct spider, add support for timeout.
-
+- 0.1.1 Disable system proxy config, use none proxy by default.
 
 简介
 ----
@@ -55,3 +55,4 @@ Update
 - 0.0.2 增加SQLite3支持,缓存单词到本地，记录查询次数。
 - 0.0.3 增加网页版有道支持，默认解析网页版词典和网页翻译查词。
 - 0.1.0 重构爬虫代码，添加超时响应。
+- 0.1.1 添加对代理服务器联网，默认不使用任何代理。

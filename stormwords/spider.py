@@ -123,14 +123,19 @@ class YouDaoSpider(object):
         Get translation result via YouDao API or YouDao web by default
         :return: translation results -- dict
         """
+        # Disable global proxy.
+        proxies = {
+            'http': None,
+            'https': None
+        }
 
         if use_api:
             self.api_params = self.gen_api_params(self.origin_api_params)
-            r = requests.get(api_url, params=self.api_params, timeout=3.1)
+            r = requests.get(api_url, params=self.api_params, timeout=3.1, proxies=proxies)
             r.raise_for_status()
             self.result = r.json()
         else:
-            r = requests.get(self.web_url + self.word, timeout=3.1)
+            r = requests.get(self.web_url + self.word, timeout=3.1, proxies=proxies)
             r.raise_for_status()
             self.parse_html(r.text)
         return self.result
