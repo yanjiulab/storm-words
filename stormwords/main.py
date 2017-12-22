@@ -16,10 +16,13 @@ def show_help():
     print("""
     控制台下的storm-words 版本{ver}
     查询结果会保存到SQLite数据库中,
-    使用方法 sw [-f] [-a] [-l] [-c] [-d word] [--help] word
+    使用方法 sw [-f] [-a] [-l, --list] [-c] [-d word] [--help] word
     [-f] 强制重新获取, 不管数据库中是否已经保存
     [-a] 使用有道智云API
-    [-l] 列出数据库中保存的所有单词
+    [-l] 按单词查询时间，列出数据库中保存的所有单词
+        [--list t] 按单词查询时间，列出数据库中保存的所有单词
+        [--list c] 按查询次数降序，列出数据库中保存的所有单词
+        [--list a] 按单词字母排序，列出数据库中保存的所有单词
     [-c] 清空数据库
     [-d word] 删除数据库中某个单词
     [--help] 显示帮助信息
@@ -81,10 +84,21 @@ def query(keyword, use_db=True, use_api=False):
     show_result(result)
 
 
-def show_db_list():
-    print(colored('保存在数据库中的单词及查询次数:', 'blue'))
-    for word in Word.select():
-        print(colored(word.keyword, 'cyan'), colored(str(word.count), 'green'))
+def show_db_list(model='t'):
+    if model == 't':
+        print(colored('保存在数据库中的单词及查询次数:', 'blue'))
+        for word in Word.select():
+            print(colored(word.keyword, 'cyan'), colored(str(word.count), 'green'))
+    elif model == 'c':
+        print(colored('保存在数据库中的单词及查询次数:', 'blue'))
+        for word in Word.select().order_by(Word.count.desc()):
+            print(colored(word.keyword, 'cyan'), colored(str(word.count), 'green'))
+    elif model == 'a':
+        print(colored('保存在数据库中的单词及查询次数:', 'blue'))
+        for word in Word.select().order_by(Word.keyword):
+            print(colored(word.keyword, 'cyan'), colored(str(word.count), 'green'))
+    else:
+        show_help()
 
 
 def del_word(keyword):
@@ -108,7 +122,7 @@ def main():
         Word.create_table()
 
     try:
-        options, args = getopt.getopt(sys.argv[1:], 'afld:c', ['help'])
+        options, args = getopt.getopt(sys.argv[1:], 'afld:c', ['help', 'list='])
     except getopt.GetoptError:
         options = [('--help', '')]
     if ('--help', '') in options:
@@ -125,6 +139,9 @@ def main():
             use_api = True
         elif opt[0] == '-l':
             show_db_list()
+            sys.exit()
+        elif opt[0] == '--list':
+            show_db_list(opt[1])
             sys.exit()
         elif opt[0] == '-d':
             del_word(opt[1])

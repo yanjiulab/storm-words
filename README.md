@@ -23,7 +23,10 @@ Help
 sw [-f] [-a] [-l] [-c] [-d word] [--help] word
 [-f] query words do not use database 
 [-a] use YouDao AICloud API
-[-l] list all the words in database
+[-l] list all the words in database by query time.
+    [--list t] list all the words in database by query time.
+    [--list c] list all the words in database by word's query times.
+    [--list a] list all the words in database by word's alphabetical.
 [-c] clear the database
 [-d word] delete a word from database
 [--help] show help
@@ -35,7 +38,7 @@ Install
 0. download
     1. `git clone git@github.com:liyanjiu/storm-words.git`
     2. `cd storm-words`
-1. `sudo python3 setup.py install`
+1. `[sudo] python3 setup.py install`
 
 Update
 ------
@@ -44,6 +47,7 @@ Update
 - 0.0.3 Add support for Web YouDao Dictionary, and searching words by parsing the web by default. 
 - 0.1.0 Reconstruct spider, add support for timeout.
 - 0.1.1 Disable system proxy config, use none proxy by default.
+- 0.1.2 Enrich display function.
 
 简介
 ----
@@ -56,3 +60,4 @@ Update
 - 0.0.3 增加网页版有道支持，默认解析网页版词典和网页翻译查词。
 - 0.1.0 重构爬虫代码，添加超时响应。
 - 0.1.1 添加对代理服务器联网，默认不使用任何代理。
+- 0.1.2 丰富了列出数据库单词功能，支持按字母顺序，查询时间，查询次数排列。

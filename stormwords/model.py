@@ -46,7 +46,34 @@ class Word(BaseModel):
 
 
 # class Root(BaseModel):
-#     pass
+#     keyword = CharField(index=True, unique=True)
+#     json_data = TextField()
+#     add_time = DateTimeField(default=datetime.datetime.now())
+#     query_time = DateTimeField(default=datetime.datetime.now())
+#     count = IntegerField(default=1)
+#
+#     # root = ForeignKeyField(Root, related_name='root')
+#     # prefix = ForeignKeyField(Prefix, related_name='prefix')
+#     # suffix = ForeignKeyField(Suffix, related_name='suffix')
+#
+#     @classmethod
+#     def get_root(cls, keyword):
+#         try:
+#             root = cls.select().where(Root.keyword == keyword).get()
+#             word.query_time = datetime.datetime.now()
+#             word.count += 1
+#             word.save()
+#             return word
+#         except Word.DoesNotExist:
+#             return None
+#
+#     @classmethod
+#     def get_last_word(cls):
+#         try:
+#             word = cls.select().order_by(cls.query_time.desc()).get()
+#             return word
+#         except cls.DoesNotExist:
+#             return None
 #
 #
 # class Prefix(BaseModel):
