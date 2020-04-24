@@ -24,10 +24,10 @@ sw [-f] [-a] [-l] [-c] [-d word] [--help] word
 [-f] query words do not use database 
 [-a] use YouDao AICloud API
 [-l] list all the words in database by query time.
-    [--list t] list all the words in database by query time.
-    [--list c] list all the words in database by word's query times.
-    [--list a] list all the words in database by word's alphabetical.
-[-c] clear the database
+    [--list t] list all the words in database by the lastest quiries of the words.
+    [--list c] list all the words in database by the number of quiries of the words.
+    [--list a] list all the words in database by words alphabetically.
+[-c] clear the database [will be lost everything!!!]
 [-d word] delete a word from database
 [--help] show help
 ```
