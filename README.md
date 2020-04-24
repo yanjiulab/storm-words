@@ -36,7 +36,7 @@ Install
 -------
 - Linux(Ubuntu):  
 0. download
-    1. `git clone git@github.com:liyanjiu/storm-words.git`
+    1. `git clone git@github.com:yanjiulab/storm-words.git`
     2. `cd storm-words`
 1. `[sudo] python3 setup.py install`
 
