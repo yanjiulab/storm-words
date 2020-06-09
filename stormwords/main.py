@@ -117,7 +117,9 @@ def del_word(keyword):
 def main():
     prepare()
     db.connect()
-    # create table of of word
+    # create table of word
+    if not db.get_tables():
+        Word.create_table()
     if not db.get_tables()[0] == 'word':
         Word.create_table()
 

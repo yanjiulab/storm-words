@@ -38,7 +38,7 @@ Install
 0. download
     1. `git clone git@github.com:yanjiulab/storm-words.git`
     2. `cd storm-words`
-1. `[sudo] python3 setup.py install`
+1. `[sudo] python3 -m pip install .` (recommended) or `[sudo] python3 setup.py install`
 
 Update
 ------
